@@ -16,7 +16,7 @@ type ListSystemsResponse struct {
 	Systems []System `json:"systems"`
 }
 
-//encore:api private path=/system
+//encore:api private path=/systems
 func ListSystems(ctx context.Context) (*ListSystemsResponse, error) {
 	conn, err := externaldb.Get(ctx)
 	if err != nil {
@@ -48,15 +48,15 @@ func ListSystems(ctx context.Context) (*ListSystemsResponse, error) {
 		return nil, err
 	}
 
-	return response, err
+	return response, nil
 }
 
 type GetSystemResponse struct {
 	System System `json:"system"`
 }
 
-//encore:api private path=/system/:slug
-func GetSystem(ctx context.Context, slug string) (*GetSystemResponse, error) {
+//encore:api private path=/systems/:systemSlug
+func GetSystem(ctx context.Context, systemSlug string) (*GetSystemResponse, error) {
 	conn, err := externaldb.Get(ctx)
 	if err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func GetSystem(ctx context.Context, slug string) (*GetSystemResponse, error) {
 		SELECT name, slug, tagline
 		FROM systems
 		WHERE slug = $1 AND live IS TRUE
-	`, slug)
+	`, systemSlug)
 
 	response := &GetSystemResponse{}
 
