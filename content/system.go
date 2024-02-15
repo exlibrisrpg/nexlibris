@@ -16,7 +16,7 @@ type ListSystemsResponse struct {
 	Systems []System `json:"systems"`
 }
 
-//encore:api private path=/systems
+//encore:api auth path=/systems
 func ListSystems(ctx context.Context) (*ListSystemsResponse, error) {
 	conn, err := externaldb.Get(ctx)
 	if err != nil {
@@ -55,7 +55,7 @@ type GetSystemResponse struct {
 	System System `json:"system"`
 }
 
-//encore:api private path=/systems/:systemSlug
+//encore:api auth path=/systems/:systemSlug
 func GetSystem(ctx context.Context, systemSlug string) (*GetSystemResponse, error) {
 	conn, err := externaldb.Get(ctx)
 	if err != nil {

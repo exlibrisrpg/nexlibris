@@ -15,7 +15,7 @@ type ListEntriesResponse struct {
 	Entries []Entry `json:"entries"`
 }
 
-//encore:api private path=/systems/:systemSlug/entries
+//encore:api auth path=/systems/:systemSlug/entries
 func ListEntries(ctx context.Context, systemSlug string) (*ListEntriesResponse, error) {
 	conn, err := externaldb.Get(ctx)
 	if err != nil {
@@ -55,7 +55,7 @@ type GetEntryResponse struct {
 	Entry Entry `json:"entry"`
 }
 
-//encore:api private path=/systems/:systemSlug/entries/:entrySlug
+//encore:api auth path=/systems/:systemSlug/entries/:entrySlug
 func GetEntry(ctx context.Context, systemSlug, entrySlug string) (*GetEntryResponse, error) {
 	conn, err := externaldb.Get(ctx)
 	if err != nil {
