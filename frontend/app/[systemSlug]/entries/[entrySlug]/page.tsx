@@ -10,6 +10,8 @@ export default async function Page({
   return (
     <>
       <h1>{entry.name}</h1>
+
+      <div dangerouslySetInnerHTML={{ __html: entry.description }} />
     </>
   );
 }

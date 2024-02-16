@@ -7,8 +7,9 @@ import (
 )
 
 type Entry struct {
-	Name string `json:"name"`
-	Slug string `json:"slug"`
+	Name        string `json:"name"`
+	Slug        string `json:"slug"`
+	Description string `json:"description"`
 }
 
 type ListEntriesResponse struct {
@@ -63,15 +64,16 @@ func GetEntry(ctx context.Context, systemSlug, entrySlug string) (*GetEntryRespo
 	}
 
 	row := conn.QueryRow(ctx, `
-		SELECT entries.name, entries.slug
+		SELECT entries.name, entries.slug, action_text_rich_texts.body
 		FROM entries
 		INNER JOIN systems ON entries.system_id = systems.id
+		INNER JOIN action_text_rich_texts ON action_text_rich_texts.record_id = entries.id AND action_text_rich_texts.record_type = 'Entry'
 		WHERE systems.slug = $1 AND systems.live IS TRUE AND entries.slug = $2
 	`, systemSlug, entrySlug)
 
 	response := &GetEntryResponse{}
 
-	if err := row.Scan(&response.Entry.Name, &response.Entry.Slug); err != nil {
+	if err := row.Scan(&response.Entry.Name, &response.Entry.Slug, &response.Entry.Description); err != nil {
 		return nil, err
 	}
 
