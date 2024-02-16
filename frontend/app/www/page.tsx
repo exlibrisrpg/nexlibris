@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { client } from "./client";
+import { client } from "../client";
+import { systemURL } from "../helpers";
 
 export default async function Page() {
   const { systems } = await client.content.ListSystems();
@@ -10,7 +11,7 @@ export default async function Page() {
       <ul>
         {systems.map((system) => (
           <li key={system.slug}>
-            <Link href={`/${system.slug}`}>{system.name}</Link>
+            <Link href={systemURL(system.slug)}>{system.name}</Link>
           </li>
         ))}
       </ul>
