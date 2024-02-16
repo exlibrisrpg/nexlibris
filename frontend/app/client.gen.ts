@@ -90,6 +90,7 @@ export namespace content {
         name: string
         slug: string
         description: string
+        coverURL: string
     }
 
     export interface GetEntryResponse {
