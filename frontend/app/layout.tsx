@@ -1,3 +1,7 @@
+import "modern-normalize/modern-normalize.css";
+import "./styles.css";
+import { Container } from "./components/Container";
+
 export default function RootLayout({
   children,
 }: {
@@ -5,7 +9,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Container>{children}</Container>
+      </body>
     </html>
   );
 }
