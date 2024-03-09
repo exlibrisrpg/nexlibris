@@ -68,7 +68,12 @@ func GetTag(ctx context.Context, systemSlug, tagSlug string) (*GetTagResponse, e
 		SELECT tags.id, tags.name, tags.slug
 		FROM tags
 		INNER JOIN systems ON tags.system_id = systems.id
-		WHERE systems.slug = $1 AND systems.live IS TRUE AND tags.slug = $2
+		LEFT JOIN friendly_id_slugs ON tags.id = friendly_id_slugs.sluggable_id AND friendly_id_slugs.sluggable_type = 'Tag'
+		WHERE systems.slug = $1 AND systems.live IS TRUE AND (
+			tags.slug = $2 OR
+			tags.id::text = $2 OR
+			friendly_id_slugs.slug = $2
+		)
 	`, systemSlug, tagSlug)
 
 	response := &GetTagResponse{}
