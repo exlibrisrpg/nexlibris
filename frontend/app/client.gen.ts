@@ -101,6 +101,10 @@ export namespace content {
         system: System
     }
 
+    export interface GetTagResponse {
+        tag: Tag
+    }
+
     export interface ListEntriesResponse {
         entries: Entry[]
     }
@@ -122,6 +126,7 @@ export namespace content {
     export interface Tag {
         name: string
         slug: string
+        entries: Entry[]
     }
 
     export class ServiceClient {
@@ -141,6 +146,12 @@ export namespace content {
             // Now make the actual call to the API
             const resp = await this.baseClient.callAPI("POST", `/systems/${encodeURIComponent(systemSlug)}`)
             return await resp.json() as GetSystemResponse
+        }
+
+        public async GetTag(systemSlug: string, tagSlug: string): Promise<GetTagResponse> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callAPI("POST", `/systems/${encodeURIComponent(systemSlug)}/tags/${encodeURIComponent(tagSlug)}`)
+            return await resp.json() as GetTagResponse
         }
 
         public async ListEntries(systemSlug: string): Promise<ListEntriesResponse> {
