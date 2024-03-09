@@ -5,12 +5,12 @@ env:
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 on:
-  push:
-    branches-ignore:
-      - main
+  check_suite:
+    types: [completed]
 
 jobs:
   deploy:
+    if: ${{ github.event.check_suite.conclusion == 'success' && github.event.check_suite.app.name == 'encoredev'}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
