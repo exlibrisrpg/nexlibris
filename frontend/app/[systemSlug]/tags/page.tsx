@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { client } from "../../client";
+import { systemURL } from "../../helpers";
 
 export default async function Page({
   params: { systemSlug },
@@ -12,7 +14,11 @@ export default async function Page({
       <h1>Tags</h1>
       <ul>
         {tags.map((tag) => (
-          <li key={tag.slug}>{tag.name}</li>
+          <li key={tag.slug}>
+            <Link href={systemURL(systemSlug, `/tags/${tag.slug}`)}>
+              {tag.name}
+            </Link>
+          </li>
         ))}
       </ul>
     </>
