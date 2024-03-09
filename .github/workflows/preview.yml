@@ -10,7 +10,7 @@ on:
 
 jobs:
   deploy:
-    if: ${{ github.event.check_suite.conclusion == 'success' && github.event.check_suite.app.name == 'encoredev'}}
+    if: github.ref != 'refs/heads/main' && github.event.check_suite.conclusion == 'success' && github.event.check_suite.app.name == 'encoredev'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
