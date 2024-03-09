@@ -1,5 +1,7 @@
 import Image from "next/image";
+import { permanentRedirect } from "next/navigation";
 import { client } from "../../../client";
+import { systemURL } from "../../../helpers";
 
 export default async function Page({
   params: { systemSlug, entrySlug },
@@ -7,6 +9,10 @@ export default async function Page({
   params: { systemSlug: string; entrySlug: string };
 }) {
   const { entry } = await client.content.GetEntry(systemSlug, entrySlug);
+
+  if (entrySlug !== entry.slug) {
+    permanentRedirect(systemURL(systemSlug, `/entries/${entry.slug}`));
+  }
 
   return (
     <>
