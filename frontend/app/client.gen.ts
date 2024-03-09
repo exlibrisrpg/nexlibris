@@ -117,6 +117,14 @@ export namespace content {
         tags: Tag[]
     }
 
+    export interface SearchRequest {
+        query: string
+    }
+
+    export interface SearchResponse {
+        entries: Entry[]
+    }
+
     export interface System {
         name: string
         slug: string
@@ -170,6 +178,12 @@ export namespace content {
             // Now make the actual call to the API
             const resp = await this.baseClient.callAPI("POST", `/systems/${encodeURIComponent(systemSlug)}/tags`)
             return await resp.json() as ListTagsResponse
+        }
+
+        public async Search(systemSlug: string, params: SearchRequest): Promise<SearchResponse> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callAPI("POST", `/systems/${encodeURIComponent(systemSlug)}/search`, JSON.stringify(params))
+            return await resp.json() as SearchResponse
         }
     }
 }
