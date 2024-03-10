@@ -27,14 +27,14 @@ const nextConfig = {
     } else {
       return [
         {
-          source: "/:path*",
-          missing: [
+          source: "/:page/:path*",
+          has: [
             {
               type: "host",
-              value: `(?<subdomain>[a-z]+)\.${baseURL}`,
+              value: `www\.${baseURL}`,
             },
           ],
-          destination: `https://www.${baseURL}/:path*`,
+          destination: `https://morkborg.${baseURL}/:page/:path*`,
           permanent: true,
         },
       ];
