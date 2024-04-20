@@ -1,8 +1,9 @@
 import "modern-normalize/modern-normalize.css";
 import "../styles.css";
 import { Container } from "../components/Container";
+import { Header } from "./Header";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params: { systemSlug },
 }: {
@@ -12,6 +13,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={systemSlug}>
+        <Header systemSlug={systemSlug} />
         <Container>{children}</Container>
       </body>
     </html>

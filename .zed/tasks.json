@@ -1,0 +1,10 @@
+[
+  {
+    "label": "Start backend (Encore)",
+    "command": "encore run"
+  },
+  {
+    "label": "Start frontend (Next.js)",
+    "command": "yarn dev"
+  }
+]

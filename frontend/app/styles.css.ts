@@ -6,25 +6,29 @@ export const theme = createGlobalTheme(":root", {
     pageWidth: "1024px",
   },
   spacing: {
-    pagePadding: "1rem"
+    pagePadding: "1rem",
+    headerPadding: "1rem"
   },
   color: {
     pageBg: grass.grass2,
     pageFg: grass.grass11,
+    headerBg: grass.grass2,
   },
 });
 
 globalStyle(".morkborg", {
   vars: assignVars(theme.color, {
     pageBg: "#fff",
-    pageFg: "#000"
+    pageFg: "#000",
+    headerBg: "#ffea00",
   })
 })
 
 globalStyle(".pirateborg", {
   vars: assignVars(theme.color, {
     pageBg: "#000",
-    pageFg: "#fff"
+    pageFg: "#fff",
+    headerBg: "#000"
   })
 })
 

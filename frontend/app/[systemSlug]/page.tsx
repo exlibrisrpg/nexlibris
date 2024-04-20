@@ -7,13 +7,10 @@ export default async function Page({
 }: {
   params: { systemSlug: string };
 }) {
-  const { system } = await client.content.GetSystem(systemSlug);
   const { entries } = await client.content.ListEntries(systemSlug);
 
   return (
     <>
-      <h1>{system.name}</h1>
-      <p>{system.tagline}</p>
       <ul>
         {entries.map((entry) => (
           <li key={entry.slug}>
