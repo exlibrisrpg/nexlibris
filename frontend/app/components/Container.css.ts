@@ -3,9 +3,10 @@ import { theme } from "../styles.css";
 
 export const container = recipe({
   base: {
-    maxWidth: "60ch",
+    width: "100%",
+    maxWidth: theme.sizing.pageWidth,
     marginInline: "auto",
-    paddingInline: theme.space[4],
+    paddingInline: theme.spacing.pagePadding,
   },
   variants: {},
 });
