@@ -1,6 +1,7 @@
-import Link from "next/link";
+import NextLink from "next/link";
 import { client } from "../client";
 import { systemURL } from "../helpers";
+import { Link } from "@radix-ui/themes";
 
 export default async function Page({
   params: { systemSlug },
@@ -10,16 +11,16 @@ export default async function Page({
   const { entries } = await client.content.ListEntries(systemSlug);
 
   return (
-    <>
-      <ul>
-        {entries.map((entry) => (
-          <li key={entry.slug}>
-            <Link href={systemURL(systemSlug, `/entries/${entry.slug}`)}>
+    <ul>
+      {entries.map((entry) => (
+        <li key={entry.slug}>
+          <Link asChild>
+            <NextLink href={systemURL(systemSlug, `/entries/${entry.slug}`)}>
               {entry.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </>
+            </NextLink>
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }

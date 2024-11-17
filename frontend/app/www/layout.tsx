@@ -1,6 +1,5 @@
-import "modern-normalize/modern-normalize.css";
-import "../styles.css";
-import { Container } from "../components/Container";
+import { Theme } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css";
 
 export default function RootLayout({
   children,
@@ -9,8 +8,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <Container>{children}</Container>
+      <body className="rt-reset">
+        <Theme>{children}</Theme>
       </body>
     </html>
   );
