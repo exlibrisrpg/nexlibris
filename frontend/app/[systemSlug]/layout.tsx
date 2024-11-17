@@ -1,7 +1,6 @@
-import "modern-normalize/modern-normalize.css";
-import "../styles.css";
-import { Container } from "../components/Container";
+import { Container, Theme } from "@radix-ui/themes";
 import { Header } from "./Header";
+import "@radix-ui/themes/styles.css";
 
 export default async function RootLayout({
   children,
@@ -12,9 +11,11 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={systemSlug}>
-        <Header systemSlug={systemSlug} />
-        <Container>{children}</Container>
+      <body className={`rt-reset ${systemSlug}`}>
+        <Theme>
+          <Header systemSlug={systemSlug} />
+          <Container size="3">{children}</Container>
+        </Theme>
       </body>
     </html>
   );
