@@ -8,7 +8,9 @@ export default async function Page({
 }: {
   params: { systemSlug: string; tagSlug: string };
 }) {
-  const { tag } = await client.content.GetTag(systemSlug, tagSlug);
+  const { tag } = await client.content.GetTag(systemSlug, tagSlug, {
+    entriesLimit: 25,
+  });
 
   if (tagSlug !== tag.slug) {
     permanentRedirect(systemURL(systemSlug, `/tags/${tag.slug}`));

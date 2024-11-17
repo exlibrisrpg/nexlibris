@@ -60,12 +60,16 @@ func ListTags(ctx context.Context, systemSlug string, request *ListTagsRequest) 
 	return response, nil
 }
 
+type GetTagRequest struct {
+	EntriesLimit int `json:"entriesLimit"`
+}
+
 type GetTagResponse struct {
 	Tag Tag `json:"tag"`
 }
 
 //encore:api auth path=/systems/:systemSlug/tags/:tagSlug
-func GetTag(ctx context.Context, systemSlug, tagSlug string) (*GetTagResponse, error) {
+func GetTag(ctx context.Context, systemSlug, tagSlug string, request *GetTagRequest) (*GetTagResponse, error) {
 	conn, err := externaldb.Get(ctx)
 	if err != nil {
 		return nil, err
@@ -95,7 +99,8 @@ func GetTag(ctx context.Context, systemSlug, tagSlug string) (*GetTagResponse, e
 		FROM entries
 		INNER JOIN entries_tags ON entries.id = entries_tags.entry_id
 		WHERE entries_tags.tag_id = $1
-	`, tagId)
+		LIMIT $2
+	`, tagId, request.EntriesLimit)
 	if err != nil {
 		return nil, err
 	}

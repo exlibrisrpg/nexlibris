@@ -106,6 +106,10 @@ export namespace content {
         system: System
     }
 
+    export interface GetTagRequest {
+        entriesLimit: number
+    }
+
     export interface GetTagResponse {
         tag: Tag
     }
@@ -173,9 +177,9 @@ export namespace content {
             return await resp.json() as GetSystemResponse
         }
 
-        public async GetTag(systemSlug: string, tagSlug: string): Promise<GetTagResponse> {
+        public async GetTag(systemSlug: string, tagSlug: string, params: GetTagRequest): Promise<GetTagResponse> {
             // Now make the actual call to the API
-            const resp = await this.baseClient.callAPI("POST", `/systems/${encodeURIComponent(systemSlug)}/tags/${encodeURIComponent(tagSlug)}`)
+            const resp = await this.baseClient.callAPI("POST", `/systems/${encodeURIComponent(systemSlug)}/tags/${encodeURIComponent(tagSlug)}`, JSON.stringify(params))
             return await resp.json() as GetTagResponse
         }
 
