@@ -13,12 +13,16 @@ type Tag struct {
 	Entries []Entry `json:"entries"`
 }
 
+type ListTagsRequest struct {
+	Limit int `json:"limit"`
+}
+
 type ListTagsResponse struct {
 	Tags []Tag `json:"tags"`
 }
 
 //encore:api auth path=/systems/:systemSlug/tags
-func ListTags(ctx context.Context, systemSlug string) (*ListTagsResponse, error) {
+func ListTags(ctx context.Context, systemSlug string, request *ListTagsRequest) (*ListTagsResponse, error) {
 	conn, err := externaldb.Get(ctx)
 	if err != nil {
 		return nil, err
@@ -27,9 +31,12 @@ func ListTags(ctx context.Context, systemSlug string) (*ListTagsResponse, error)
 	rows, err := conn.Query(ctx, `
 		SELECT tags.name, tags.slug
 		FROM tags
-		INNER JOIN systems ON tags.system_id = systems.id
-		WHERE systems.slug = $1 AND systems.live IS TRUE
-	`, systemSlug)
+		INNER JOIN systems ON
+			tags.system_id = systems.id AND
+			systems.slug = $1 AND
+			systems.live IS TRUE
+		LIMIT $2
+	`, systemSlug, request.Limit)
 	if err != nil {
 		return nil, err
 	}

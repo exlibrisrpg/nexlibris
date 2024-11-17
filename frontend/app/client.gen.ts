@@ -122,6 +122,10 @@ export namespace content {
         systems: System[]
     }
 
+    export interface ListTagsRequest {
+        limit: number
+    }
+
     export interface ListTagsResponse {
         tags: Tag[]
     }
@@ -189,9 +193,9 @@ export namespace content {
             return await resp.json() as ListSystemsResponse
         }
 
-        public async ListTags(systemSlug: string): Promise<ListTagsResponse> {
+        public async ListTags(systemSlug: string, params: ListTagsRequest): Promise<ListTagsResponse> {
             // Now make the actual call to the API
-            const resp = await this.baseClient.callAPI("POST", `/systems/${encodeURIComponent(systemSlug)}/tags`)
+            const resp = await this.baseClient.callAPI("POST", `/systems/${encodeURIComponent(systemSlug)}/tags`, JSON.stringify(params))
             return await resp.json() as ListTagsResponse
         }
 

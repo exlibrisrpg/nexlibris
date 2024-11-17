@@ -7,7 +7,7 @@ export default async function Page({
 }: {
   params: { systemSlug: string };
 }) {
-  const { tags } = await client.content.ListTags(systemSlug);
+  const { tags } = await client.content.ListTags(systemSlug, { limit: 25 });
 
   return (
     <>
