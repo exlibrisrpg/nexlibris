@@ -14,12 +14,16 @@ type Entry struct {
 	CoverURL    string `json:"coverURL"`
 }
 
+type ListEntriesRequest struct {
+	Limit int `json:"limit"`
+}
+
 type ListEntriesResponse struct {
 	Entries []Entry `json:"entries"`
 }
 
 //encore:api auth path=/systems/:systemSlug/entries
-func ListEntries(ctx context.Context, systemSlug string) (*ListEntriesResponse, error) {
+func ListEntries(ctx context.Context, systemSlug string, request *ListEntriesRequest) (*ListEntriesResponse, error) {
 	conn, err := externaldb.Get(ctx)
 	if err != nil {
 		return nil, err
@@ -28,9 +32,12 @@ func ListEntries(ctx context.Context, systemSlug string) (*ListEntriesResponse, 
 	rows, err := conn.Query(ctx, `
 		SELECT entries.name, entries.slug
 		FROM entries
-		INNER JOIN systems ON entries.system_id = systems.id
-		WHERE systems.slug = $1 AND systems.live IS TRUE
-	`, systemSlug)
+		INNER JOIN systems ON
+			entries.system_id = systems.id AND
+			systems.slug = $1 AND
+			systems.live IS TRUE
+		LIMIT $2
+	`, systemSlug, request.Limit)
 	if err != nil {
 		return nil, err
 	}

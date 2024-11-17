@@ -1,14 +1,16 @@
+import { Link } from "@radix-ui/themes";
 import NextLink from "next/link";
 import { client } from "../client";
 import { systemURL } from "../helpers";
-import { Link } from "@radix-ui/themes";
 
 export default async function Page({
   params: { systemSlug },
 }: {
   params: { systemSlug: string };
 }) {
-  const { entries } = await client.content.ListEntries(systemSlug);
+  const { entries } = await client.content.ListEntries(systemSlug, {
+    limit: 25,
+  });
 
   return (
     <ul>

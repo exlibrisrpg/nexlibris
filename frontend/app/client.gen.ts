@@ -114,6 +114,10 @@ export namespace content {
         categories: Category[]
     }
 
+    export interface ListEntriesRequest {
+        limit: number
+    }
+
     export interface ListEntriesResponse {
         entries: Entry[]
     }
@@ -181,9 +185,9 @@ export namespace content {
             return await resp.json() as ListCategoriesResponse
         }
 
-        public async ListEntries(systemSlug: string): Promise<ListEntriesResponse> {
+        public async ListEntries(systemSlug: string, params: ListEntriesRequest): Promise<ListEntriesResponse> {
             // Now make the actual call to the API
-            const resp = await this.baseClient.callAPI("POST", `/systems/${encodeURIComponent(systemSlug)}/entries`)
+            const resp = await this.baseClient.callAPI("POST", `/systems/${encodeURIComponent(systemSlug)}/entries`, JSON.stringify(params))
             return await resp.json() as ListEntriesResponse
         }
 
